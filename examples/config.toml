@@ -1,0 +1,74 @@
+# ~/.config/fileorganizer/config.toml
+
+[general]
+# Where classified files are removed. Supports ~ expansion.
+target_root = "~/Organized"
+# If true, dry-run is skipped and moves happen by default.
+# Recommended: false, use --apply explicitly.
+always_apply = false
+# Skip hidden files (dotfiles) by default.
+skip_hidden = true
+# Skip files smaller than this many bytes.
+min_size_bytes = 0
+# Collision strategy: "rename" | "skip" | "overwrite" | "trash_existing"
+collision = "rename"
+# Where to store journals for undo. Supports ~ expansion.
+journal_dir = "~/.local/share/fileorganizer/journal"
+
+# RULE ORDER MATTERS: first match wins. Put specific rules (patterns) before
+# broad extension rules, and the "*" fallback last.
+#
+# Within one rule, every criterion you list (extensions, patterns, mimes)
+# must match. Omit a criterion to ignore it.
+
+[[rules]]
+name = "Screenshots"
+patterns = ["*screenshot*", "*screen shot*", "cleanshot *"]
+target = "Images/Screenshots/{year}/{month}"
+
+[[rules]]
+name = "Invoices"
+patterns = ["*invoice*", "*receipt*"]
+extensions = ["pdf"]
+target = "Documents/Invoices/{year}"
+
+[[rules]]
+name = "Images"
+extensions = ["jpg", "jpeg", "png", "gif", "webp", "heic", "svg"]
+target = "Images/{year}/{month}"
+
+[[rules]]
+name = "Documents"
+extensions = ["pdf", "doc", "docx", "txt", "md", "odt"]
+target = "Documents/{year}"
+
+[[rules]]
+name = "Spreadsheets"
+extensions = ["xls", "xlsx", "csv", "ods"]
+target = "Documents/Spreadsheets/{year}"
+
+[[rules]]
+name = "Archives"
+extensions = ["zip", "tar", "gz", "7z", "rar", "xz", "bz2"]
+target = "Archives"
+
+[[rules]]
+name = "Audio"
+extensions = ["mp3", "flac", "wav", "m4a", "ogg", "opus"]
+target = "Media/Video/{year}"
+
+[[rules]]
+name = "Video"
+extensions = ["mp4", "mkv", "mov", "avi", "webm"]
+target = "Media/Video/{year}"
+
+[[rules]]
+name = "Installers"
+extensions = ["dmg", "pkg", "msi", "exe", "deb", "rpm", "appimage"]
+target = "Installers"
+
+# Fallback rule - must be last
+[[rules]]
+name = "Other"
+extensions = ["*"]
+target = "Other"

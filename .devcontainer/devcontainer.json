@@ -1,0 +1,24 @@
+{
+    "name": "fileorganizer",
+    "image": "mcr.microsoft.com/devcontainers/rust:1-bookworm",
+    // Keep build output and the crate cache off the bind mount (much faster on macOS/Windows hosts)
+    "mounts": [
+        "source=fo-target,target=${containerWorkspaceFolder}/target,type=volume",
+        "source=fo-cargo-registry,target=/usr/local/cargo/registry,type=volume"
+    ],
+    // Named volumes are created root-owned, so hand them to the dev user, the pre-fetch deps
+    "postCreateCommand": "sudo chown -R vscode:rustlang ${containerWorkspaceFolder}/target /usr/local/cargo/registry && rustup update stable",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "rust-lang.rust-analyzer",
+                "tamasfe.even-better-toml",
+                "vadimcn.vscode-lldb"
+            ],
+            "settings": {
+                "rust-analyzer.check.command": "clippy",
+                "editor.formatOnSave": true
+            }
+        }
+    }
+}
